@@ -1,11 +1,9 @@
 package com.umbrella.raven.controller;
 
+import com.umbrella.raven.model.valuation.ValuationCurrentAlgorithmConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -46,9 +44,9 @@ public class ValuationController {
      */
     @Operation(summary = "Modify the current valuation algorithm.",
             tags = VALUATION_OPENAPI_TAG)
-    @GetMapping(value = "/current/modify",
+    @PostMapping(value = "/current/modify",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String modifyValuationCurrent() {
+    public String modifyValuationCurrent(@RequestBody ValuationCurrentAlgorithmConfig config) {
         return ""; // TODO: Modify the current valuation algorithm.
     }
 
