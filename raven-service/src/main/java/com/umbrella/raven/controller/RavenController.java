@@ -17,12 +17,13 @@ public class RavenController {
 
 
     /**
-     * Template.
+     * Raven service general information.
      */
-    @Operation(summary = "template",
+    @Operation(summary = "Raven service general information.",
             tags = RAVEN_OPENAPI_TAG)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String template() {
-        return ""; // TODO: Template
+    @GetMapping(value = "/info",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String ravenServiceGeneralInformation() {
+        return ""; // TODO: Raven service general information.
     }
 }

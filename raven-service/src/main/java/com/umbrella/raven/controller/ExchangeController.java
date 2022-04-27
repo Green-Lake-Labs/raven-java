@@ -19,32 +19,47 @@ public class ExchangeController {
 
 
     /**
-     * Template.
+     * Fetch all companies on the NYSE, NASDAQ, & AMEX.
      */
-    @Operation(summary = "template",
+    @Operation(summary = "Fetch all companies on the NYSE, NASDAQ, & AMEX.",
             tags = EXCHANGE_OPENAPI_TAG)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String template() {
-        return ""; // TODO: Template
+    @GetMapping(value = "/getAllSymbols/all",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String fetchAllSymbols() {
+        return ""; // TODO: Fetch all companies on the NYSE, NASDAQ, & AMEX.
     }
 
     /**
-     * Template.
+     * Fetch all companies on the NYSE.
      */
-    @Operation(summary = "template",
+    @Operation(summary = "Fetch all companies on the NYSE.",
             tags = EXCHANGE_OPENAPI_TAG)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String template() {
-        return ""; // TODO: Template
+    @GetMapping(value = "/getAllSymbols/nyse",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String fetchAllSymbolsNyse() {
+        return ""; // TODO: Fetch all companies on the NYSE.
     }
 
     /**
-     * Template.
+     * Fetch all companies on the NASDAQ.
      */
-    @Operation(summary = "template",
+    @Operation(summary = "Fetch all companies on the NASDAQ.",
             tags = EXCHANGE_OPENAPI_TAG)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public String template() {
-        return ""; // TODO: Template
+    @GetMapping(value = "/getAllSymbols/nasdaq",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String fetchAllSymbolsNasdaq() {
+        return ""; // TODO: Fetch all companies on the NASDAQ.
     }
+
+    /**
+     * Fetch all companies on the AMEX.
+     */
+    @Operation(summary = "Fetch all companies on the AMEX.",
+            tags = EXCHANGE_OPENAPI_TAG)
+    @GetMapping(value = "/getAllSymbols/amex",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String fetchAllSymbolsAmex() {
+        return ""; // TODO: Fetch all companies on the AMEX.
+    }
+
 }
