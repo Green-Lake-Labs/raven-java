@@ -2,7 +2,9 @@ package com.umbrella.raven.controller;
 
 import com.umbrella.raven.model.analysis.AnalysisFocusedAlgorithmConfig;
 import com.umbrella.raven.model.analysis.AnalysisMainAlgorithmConfig;
+import com.umbrella.raven.service.AnalysisService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +14,14 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("analysis")
+@AllArgsConstructor
 public class AnalysisController {
 
 
     final String ANALYSIS_OPENAPI_TAG = "Analysis API";
+
+
+    final AnalysisService analysisService;
 
 
     /**
@@ -26,7 +32,8 @@ public class AnalysisController {
     @GetMapping(value = "/main/run",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String runAnalysisAlgorithm() {
-        return ""; // TODO: Run the main post-valuation analysis algorithm.
+        this.analysisService.runAnalysisAlgorithm();
+        return "Launching post-valuation analysis algorithm, which runs on all symbols. This may take a while...";
     }
 
     /**
@@ -37,7 +44,8 @@ public class AnalysisController {
     @PostMapping(value = "/main/modify",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String modifyAnalysisAlgorithm(@RequestBody AnalysisMainAlgorithmConfig config) {
-        return ""; // TODO: Modify the main post-valuation analysis algorithm.
+        this.analysisService.modifyAnalysisAlgorithm(config);
+        return "Successfully modified the main post-valuation analysis algorithm.";
     }
 
     /**
@@ -48,7 +56,8 @@ public class AnalysisController {
     @GetMapping(value = "/focused/run/{symbol}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String runFocusedAlgorithm(@PathVariable String symbol) {
-        return ""; // TODO: Run the focused post-valuation analysis algorithm on a specific equity.
+        this.analysisService.runFocusedAlgorithm(symbol);
+        return "Launching post-valuation analysis algorithm on " + symbol + ". This may take a while...";
     }
 
     /**
@@ -59,7 +68,8 @@ public class AnalysisController {
     @PostMapping(value = "/focused/modify",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String runFocusedAlgorithm(@RequestBody AnalysisFocusedAlgorithmConfig config) {
-        return ""; // TODO: Modify the focused post-valuation analysis algorithm.
+        this.analysisService.modifyFocusedAlgorithm(config);
+        return "Successfully modified the focused post-valuation analysis algorithm.";
     }
 
 }

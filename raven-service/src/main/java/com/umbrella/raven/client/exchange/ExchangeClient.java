@@ -7,11 +7,23 @@ import java.util.List;
 
 public interface ExchangeClient {
 
-    public List<Symbol> getAllSymbols();
+    /**
+     * Fetch all companies on the NYSE, NASDAQ, & AMEX.
+     */
+    List<Symbol> getAllSymbols();
 
-    public List<Symbol> getAllSymbolsAmex();
+    /**
+     * Fetch all companies on the AMEX.
+     */
+    List<Symbol> getAllSymbolsAmex();
 
-    public List<Symbol> getAllSymbolsNasdaq();
+    /**
+     * Fetch all companies on the NASDAQ.
+     */
+    List<Symbol> getAllSymbolsNasdaq();
 
-    public List<Symbol> getAllSymbolsNyse();
+    /**
+     * Fetch all companies on the NYSE.
+     */
+    List<Symbol> getAllSymbolsNyse();
 }

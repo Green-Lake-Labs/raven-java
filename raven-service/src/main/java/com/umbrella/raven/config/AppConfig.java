@@ -19,27 +19,8 @@ public class AppConfig {
     }
 
     @Bean
-    public ExchangeClient exchangeClient(RestTemplate restTemplate) {
+    public ExchangeClient exchangeClient() {
         return new PolygonClient();
     }
 
-    @Bean
-    public AnalysisService analysisService() {
-        return new AnalysisService();
-    }
-
-    @Bean
-    public ExchangeService exchangeService(ExchangeClient exchangeClient) {
-        return new ExchangeService(exchangeClient);
-    }
-
-    @Bean
-    public QueryService queryService() {
-        return new QueryService();
-    }
-
-    @Bean
-    public ValuationService valuationService() {
-        return new ValuationService();
-    }
 }
