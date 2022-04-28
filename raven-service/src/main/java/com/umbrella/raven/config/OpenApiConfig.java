@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 public class OpenApiConfig {
 
-    final BuildProperties buildProperties;
+
+    BuildProperties buildProperties;
 
     @Bean
     public OpenAPI openApi() {

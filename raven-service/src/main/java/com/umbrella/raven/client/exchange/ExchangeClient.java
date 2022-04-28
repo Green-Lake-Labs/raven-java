@@ -1,10 +1,12 @@
 package com.umbrella.raven.client.exchange;
 
 import com.umbrella.raven.model.exchange.Symbol;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public interface ExchangeClient {
 
     /**
