@@ -11,5 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 public class TickerSymbolList {
 
-    List<String> tickerSymbolList;
+    String date;
+    String status;
+    List<String> stocks;
+
+    public List<String> getTickerSymbolList() {
+        return this.stocks;
+    }
 }

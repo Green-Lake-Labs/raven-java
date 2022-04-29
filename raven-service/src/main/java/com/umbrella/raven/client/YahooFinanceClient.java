@@ -21,12 +21,12 @@ public class YahooFinanceClient {
 
     public YahooFinanceClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.headers = new HttpHeaders();
-        this.headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        this.params = new LinkedMultiValueMap<>() {{
+        this.headers = new HttpHeaders() {{
+            add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             add("X-RapidAPI-Host", "stock-market-data.p.rapidapi.com");
             add("X-RapidAPI-Key", System.getenv("X_RAPIDAPI_KEY"));
         }};
+        this.params = new LinkedMultiValueMap<>();
     }
 
     public CompanyProfile getCompanyProfile(String tickerSymbol) {
@@ -35,7 +35,7 @@ public class YahooFinanceClient {
         MultiValueMap<String, String> getCompanyProfileParams = this.params;
         getCompanyProfileParams.add("ticker_symbol", tickerSymbol);
 
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(this.params, this.headers);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(getCompanyProfileParams, this.headers);
         ResponseEntity<CompanyProfile> responseEntity = restTemplate
                 .exchange(url, HttpMethod.GET, requestEntity, CompanyProfile.class);
         return responseEntity.getBody();
@@ -77,6 +77,10 @@ public class YahooFinanceClient {
         List<CompanyProfile> allTickerSymbols = getAllTickerSymbolsNasdaq();
         allTickerSymbols.addAll(getAllTickerSymbolsNyse());
         return allTickerSymbols;
+    }
+
+    public CompanyProfile getSymbol(String symbol) {
+        return getCompanyProfile(symbol);
     }
 
 }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -94,6 +95,17 @@ public class ExchangeController {
     public String writeSymbolsNyse() {
         this.exchangeService.writeSymbolsNyse();
         return "Writing all symbols from NYSE to the database. This will overwrite the existing tables of symbols.";
+    }
+
+    /**
+     * Fetch a single company's profile.
+     */
+    @Operation(summary = "Fetch a single company's profile.",
+            tags = EXCHANGE_OPENAPI_TAG)
+    @GetMapping(value = "/getSymbol/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompanyProfile fetchSymbolsAll(@PathVariable String symbol) {
+        return this.exchangeService.getSymbol(symbol);
     }
 
 }

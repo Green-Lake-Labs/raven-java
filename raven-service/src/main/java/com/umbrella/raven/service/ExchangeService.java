@@ -27,33 +27,37 @@ public class ExchangeService {
         return this.yahooFinanceClient.getAllTickerSymbols();
     }
 
+    public void writeSymbolsAll() {
+        this.companyProfileDaoRepository.saveAll(
+                getSymbolsAll().stream().map(CompanyProfileDao::new)
+                        .collect(Collectors.toList())
+        );
+    }
+
     public List<CompanyProfile> getSymbolsNasdaq() {
         return this.yahooFinanceClient.getAllTickerSymbolsNasdaq();
+    }
+
+    public void writeSymbolsNasdaq() {
+        this.companyProfileDaoRepository.saveAll(
+                getSymbolsNasdaq().stream().map(CompanyProfileDao::new)
+                        .collect(Collectors.toList())
+        );
     }
 
     public List<CompanyProfile> getSymbolsNyse() {
         return this.yahooFinanceClient.getAllTickerSymbolsNyse();
     }
 
-    public void writeSymbolsAll() {
-        this.companyProfileDaoRepository.saveAll(
-                getSymbolsAll().stream().map(c -> new CompanyProfileDao(c))
-                        .collect(Collectors.toList())
-        );
-    }
-
-    public void writeSymbolsNasdaq() {
-        this.companyProfileDaoRepository.saveAll(
-                getSymbolsNasdaq().stream().map(c -> new CompanyProfileDao(c))
-                        .collect(Collectors.toList())
-        );
-    }
-
     public void writeSymbolsNyse() {
         this.companyProfileDaoRepository.saveAll(
-                getSymbolsNyse().stream().map(c -> new CompanyProfileDao(c))
+                getSymbolsNyse().stream().map(CompanyProfileDao::new)
                         .collect(Collectors.toList())
         );
+    }
+
+    public CompanyProfile getSymbol(String symbol) {
+        return this.yahooFinanceClient.getSymbol(symbol);
     }
 
 }

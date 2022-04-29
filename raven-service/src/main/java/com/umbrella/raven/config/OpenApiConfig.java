@@ -19,7 +19,11 @@ public class OpenApiConfig {
     public OpenAPI openApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title(buildProperties.getName())
+                        .title(
+                                buildProperties.getName()
+                                        .substring(0, 1).toUpperCase()
+                                + buildProperties.getName().substring(1)
+                        )
                         .description("Equity valuation.")
                         .version(buildProperties.getVersion()))
                 .externalDocs(new ExternalDocumentation()
