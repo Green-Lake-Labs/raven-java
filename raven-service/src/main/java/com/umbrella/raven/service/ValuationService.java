@@ -1,6 +1,5 @@
 package com.umbrella.raven.service;
 
-import com.umbrella.raven.client.valuation.ValuationClient;
 import com.umbrella.raven.model.valuation.ValuationCurrentAlgorithmConfig;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,9 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ValuationService {
-
-
-    final ValuationClient valuationClient;
 
 
     // TODO: Run the current valuation algorithm on all equities in the database.

@@ -1,11 +1,15 @@
 package com.umbrella.raven.service;
 
-import com.umbrella.raven.client.exchange.ExchangeClient;
-import com.umbrella.raven.model.exchange.Symbol;
+import com.umbrella.raven.client.YahooFinanceClient;
+import com.umbrella.raven.model.exchange.CompanyProfile;
+import com.umbrella.raven.model.exchange.CompanyProfileDao;
+import com.umbrella.raven.model.exchange.CompanyProfileDaoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service class for driving the Exchange Client.
@@ -14,48 +18,42 @@ import java.util.List;
 @AllArgsConstructor
 public class ExchangeService {
 
+    @Autowired
+    CompanyProfileDaoRepository companyProfileDaoRepository;
 
-    final ExchangeClient exchangeClient;
+    final YahooFinanceClient yahooFinanceClient;
 
-
-    public List<Symbol> getSymbolsAll() {
-        return this.exchangeClient.getAllSymbols();
+    public List<CompanyProfile> getSymbolsAll() {
+        return this.yahooFinanceClient.getAllTickerSymbols();
     }
 
-    public List<Symbol> getSymbolsAmex() {
-        return this.exchangeClient.getAllSymbolsAmex();
+    public List<CompanyProfile> getSymbolsNasdaq() {
+        return this.yahooFinanceClient.getAllTickerSymbolsNasdaq();
     }
 
-    public List<Symbol> getSymbolsNasdaq() {
-        return this.exchangeClient.getAllSymbolsNasdaq();
-    }
-
-    public List<Symbol> getSymbolsNyse() {
-        return this.exchangeClient.getAllSymbolsNyse();
+    public List<CompanyProfile> getSymbolsNyse() {
+        return this.yahooFinanceClient.getAllTickerSymbolsNyse();
     }
 
     public void writeSymbolsAll() {
-        for (Symbol symbol: getSymbolsAll()) {
-            System.out.println(symbol.toString()); // TODO: Write to Database!
-        }
-    }
-
-    public void writeSymbolsAmex() {
-        for (Symbol symbol: getSymbolsAmex()) {
-            System.out.println(symbol.toString()); // TODO: Write to Database!
-        }
+        this.companyProfileDaoRepository.saveAll(
+                getSymbolsAll().stream().map(c -> new CompanyProfileDao(c))
+                        .collect(Collectors.toList())
+        );
     }
 
     public void writeSymbolsNasdaq() {
-        for (Symbol symbol: getSymbolsNasdaq()) {
-            System.out.println(symbol.toString()); // TODO: Write to Database!
-        }
+        this.companyProfileDaoRepository.saveAll(
+                getSymbolsNasdaq().stream().map(c -> new CompanyProfileDao(c))
+                        .collect(Collectors.toList())
+        );
     }
 
     public void writeSymbolsNyse() {
-        for (Symbol symbol: getSymbolsNyse()) {
-            System.out.println(symbol.toString()); // TODO: Write to Database!
-        }
+        this.companyProfileDaoRepository.saveAll(
+                getSymbolsNyse().stream().map(c -> new CompanyProfileDao(c))
+                        .collect(Collectors.toList())
+        );
     }
 
 }

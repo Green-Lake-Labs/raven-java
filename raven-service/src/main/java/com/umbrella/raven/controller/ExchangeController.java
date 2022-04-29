@@ -1,6 +1,6 @@
 package com.umbrella.raven.controller;
 
-import com.umbrella.raven.model.exchange.Symbol;
+import com.umbrella.raven.model.exchange.CompanyProfile;
 import com.umbrella.raven.service.ExchangeService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class ExchangeController {
             tags = EXCHANGE_OPENAPI_TAG)
     @GetMapping(value = "/getSymbols/all",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Symbol> fetchSymbolsAll() {
+    public List<CompanyProfile> fetchSymbolsAll() {
         return this.exchangeService.getSymbolsAll();
     }
 
@@ -51,36 +51,13 @@ public class ExchangeController {
     }
 
     /**
-     * Fetch all companies on the AMEX.
-     */
-    @Operation(summary = "Fetch all companies on the AMEX.",
-            tags = EXCHANGE_OPENAPI_TAG)
-    @GetMapping(value = "/getSymbols/amex",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Symbol> fetchSymbolsAmex() {
-        return this.exchangeService.getSymbolsAmex();
-    }
-
-    /**
-     * Write all companies on the AMEX to the database.
-     */
-    @Operation(summary = "Write all companies on the AMEX to the database.",
-            tags = EXCHANGE_OPENAPI_TAG)
-    @GetMapping(value = "/writeSymbols/amex",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public String writeSymbolsAmex() {
-        this.exchangeService.writeSymbolsAmex();
-        return "Writing all symbols from AMEX to the database. This will overwrite the existing tables of symbols.";
-    }
-
-    /**
      * Fetch all companies on the NASDAQ.
      */
     @Operation(summary = "Fetch all companies on the NASDAQ.",
             tags = EXCHANGE_OPENAPI_TAG)
     @GetMapping(value = "/getSymbols/nasdaq",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Symbol> fetchSymbolsNasdaq() {
+    public List<CompanyProfile> fetchSymbolsNasdaq() {
         return this.exchangeService.getSymbolsNasdaq();
     }
 
@@ -103,7 +80,7 @@ public class ExchangeController {
             tags = EXCHANGE_OPENAPI_TAG)
     @GetMapping(value = "/getSymbols/nyse",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Symbol> fetchSymbolsNyse() {
+    public List<CompanyProfile> fetchSymbolsNyse() {
         return this.exchangeService.getSymbolsNyse();
     }
 
