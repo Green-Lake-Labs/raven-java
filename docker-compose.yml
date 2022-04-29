@@ -21,8 +21,8 @@ services:
     depends_on:
       - postgres
 
-  raven-cli:
-    build: ./raven-cli/
-    depends_on:
-      - postgres
-      - raven-service
+#  raven-cli:
+#    build: ./raven-cli/Dockerfile
+#    depends_on:
+#      - postgres
+#      - raven-service
