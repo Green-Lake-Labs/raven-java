@@ -1,6 +1,6 @@
 package com.umbrella.raven.controller;
 
-import com.umbrella.raven.model.valuation.ValuationResult;
+import com.umbrella.raven.model.ValuationResult;
 import com.umbrella.raven.service.QueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;

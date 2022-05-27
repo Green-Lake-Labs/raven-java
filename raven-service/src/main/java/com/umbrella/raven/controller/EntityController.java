@@ -1,8 +1,8 @@
 package com.umbrella.raven.controller;
 
-import com.umbrella.raven.model.CompanyProfile;
+import com.umbrella.raven.model.profile.CompanyProfile;
 import com.umbrella.raven.model.symbol.TickerSymbolDao;
-import com.umbrella.raven.service.ExchangeService;
+import com.umbrella.raven.service.EntityService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -20,57 +20,35 @@ import java.util.List;
 @RestController
 @RequestMapping("exchange")
 @AllArgsConstructor
-public class ExchangeController {
+public class EntityController {
 
 
     final String EXCHANGE_OPENAPI_TAG = "Exchange API";
 
 
-    final ExchangeService exchangeService;
+    final EntityService entityService;
 
 
     /**
-     * Fetch all companies on the NYSE, NASDAQ, & AMEX.
+     * Fetch all symbols in the database.
      */
-    @Operation(summary = "Fetch all companies on the NASDAQ & NYSE.",
+    @Operation(summary = "Fetch all symbols in the database.",
             tags = EXCHANGE_OPENAPI_TAG)
     @GetMapping(value = "/getSymbols/all",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TickerSymbolDao> fetchSymbolsAll() {
-        return this.exchangeService.getSymbolsAll();
+        return this.entityService.getSymbolsAll();
     }
 
-//    /**
-//     * Fetch all companies on the NASDAQ.
-//     */
-//    @Operation(summary = "Fetch all companies on the NASDAQ.",
-//            tags = EXCHANGE_OPENAPI_TAG)
-//    @GetMapping(value = "/getSymbols/nasdaq",
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public List<CompanyProfile> fetchSymbolsNasdaq() {
-//        return this.exchangeService.getSymbolsNasdaq();
-//    }
-//
-//    /**
-//     * Fetch all companies on the NYSE.
-//     */
-//    @Operation(summary = "Fetch all companies on the NYSE.",
-//            tags = EXCHANGE_OPENAPI_TAG)
-//    @GetMapping(value = "/getSymbols/nyse",
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public List<CompanyProfile> fetchSymbolsNyse() {
-//        return this.exchangeService.getSymbolsNyse();
-//    }
-
-//    /**
-//     * Fetch a single company's profile.
-//     */
-//    @Operation(summary = "Fetch a single company's profile.",
-//            tags = EXCHANGE_OPENAPI_TAG)
-//    @GetMapping(value = "/getSymbol/{symbol}",
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public CompanyProfile fetchSymbolsAll(@PathVariable String symbol) {
-//        return this.exchangeService.getSymbol(symbol);
-//    }
+    /**
+     * Fetch a single company's profile info.
+     */
+    @Operation(summary = "Fetch a single company's profile info.",
+            tags = EXCHANGE_OPENAPI_TAG)
+    @GetMapping(value = "/getProfileInfo/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompanyProfile fetchSymbolsAll(@PathVariable String symbol) {
+        return this.entityService.getProfileInfo(symbol.toUpperCase());
+    }
 
 }
