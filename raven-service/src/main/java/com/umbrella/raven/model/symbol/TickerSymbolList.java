@@ -1,4 +1,4 @@
-package com.umbrella.raven.model;
+package com.umbrella.raven.model.symbol;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

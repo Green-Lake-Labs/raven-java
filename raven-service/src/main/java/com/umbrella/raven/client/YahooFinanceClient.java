@@ -1,19 +1,21 @@
 package com.umbrella.raven.client;
 
-import com.umbrella.raven.model.exchange.CompanyProfile;
-import com.umbrella.raven.model.exchange.TickerSymbolList;
+import com.umbrella.raven.model.profile.CompanyProfile;
+import com.umbrella.raven.model.exception.LookupException;
+import com.umbrella.raven.model.profile.CompanyProfileResponse;
+import com.umbrella.raven.model.symbol.TickerSymbolList;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 @Component
 public class YahooFinanceClient {
+
+    String BASE_URL = "https://stock-market-data.p.rapidapi.com";
 
     RestTemplate restTemplate;
     HttpHeaders headers;
@@ -29,58 +31,32 @@ public class YahooFinanceClient {
         this.params = new LinkedMultiValueMap<>();
     }
 
-    public CompanyProfile getCompanyProfile(String tickerSymbol) {
-        String url = "https://stock-market-data.p.rapidapi.com/stock/company-info";
-
-        MultiValueMap<String, String> getCompanyProfileParams = this.params;
-        getCompanyProfileParams.add("ticker_symbol", tickerSymbol);
-
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(getCompanyProfileParams, this.headers);
-        ResponseEntity<CompanyProfile> responseEntity = restTemplate
-                .exchange(url, HttpMethod.GET, requestEntity, CompanyProfile.class);
-        return responseEntity.getBody();
-    }
-
-    public List<CompanyProfile> getCompanyProfileList(List<String> tickerSymbolsList) {
-        try {
-            List<CompanyProfile> allTickerSymbolsNasdaq = new ArrayList<>();
-            for (String tickerSymbolString : tickerSymbolsList) {
-                allTickerSymbolsNasdaq.add(
-                        getCompanyProfile(tickerSymbolString)
-                );
-            }
-            return allTickerSymbolsNasdaq;
-        } catch (NullPointerException e) {
-            return new ArrayList<>();
+    public TickerSymbolList getTickerSymbols(String exchange) throws LookupException {
+        if (exchange.equals("nasdaq") || exchange.equals("nyse")) {
+            String url = BASE_URL + "/market/exchange/" + exchange;
+            String uriTemplate = UriComponentsBuilder.fromHttpUrl(url)
+                    .encode()
+                    .toUriString();
+            HttpEntity<?> requestEntity = new HttpEntity<>(this.headers);
+            ResponseEntity<TickerSymbolList> responseEntity = restTemplate
+                    .exchange(uriTemplate, HttpMethod.GET, requestEntity, TickerSymbolList.class);
+            return responseEntity.getBody();
+        } else {
+            throw new LookupException("Exchange entered is invalid: \"" + exchange + "\". Must be \"nasdaq\" or \"nyse\".");
         }
     }
 
-    public List<CompanyProfile> getAllTickerSymbolsNasdaq() {
-        String url = "https://stock-market-data.p.rapidapi.com/market/exchange/nasdaq";
-
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(this.params, this.headers);
-        ResponseEntity<TickerSymbolList> responseEntity = restTemplate
-                .exchange(url, HttpMethod.GET, requestEntity, TickerSymbolList.class);
-        return getCompanyProfileList(responseEntity.getBody().getTickerSymbolList());
+    public CompanyProfileResponse getProfileInfo(String symbol) {
+        String url = BASE_URL + "/stock/company-info";
+        String uriTemplate = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParams(new LinkedMultiValueMap<>() {{
+                    add("ticker_symbol", symbol);
+                }})
+                .encode()
+                .toUriString();
+        HttpEntity<?> requestEntity = new HttpEntity<>(this.headers);
+        ResponseEntity<CompanyProfileResponse> responseEntity = restTemplate
+                .exchange(uriTemplate, HttpMethod.GET, requestEntity, CompanyProfileResponse.class);
+        return responseEntity.getBody();
     }
-
-    public List<CompanyProfile> getAllTickerSymbolsNyse() {
-        String url = "https://stock-market-data.p.rapidapi.com/market/exchange/nyse";
-
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(this.params, this.headers);
-        ResponseEntity<TickerSymbolList> responseEntity = restTemplate
-                .exchange(url, HttpMethod.GET, requestEntity, TickerSymbolList.class);
-        return getCompanyProfileList(responseEntity.getBody().getTickerSymbolList());
-    }
-
-    public List<CompanyProfile> getAllTickerSymbols() {
-        List<CompanyProfile> allTickerSymbols = getAllTickerSymbolsNasdaq();
-        allTickerSymbols.addAll(getAllTickerSymbolsNyse());
-        return allTickerSymbols;
-    }
-
-    public CompanyProfile getSymbol(String symbol) {
-        return getCompanyProfile(symbol);
-    }
-
 }

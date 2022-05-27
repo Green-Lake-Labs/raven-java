@@ -1,2 +1,4 @@
-package com.umbrella.raven.model;public class ValuationResult {
+package com.umbrella.raven.model;
+
+public class ValuationResult {
 }

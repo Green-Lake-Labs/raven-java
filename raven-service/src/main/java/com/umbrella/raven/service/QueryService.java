@@ -1,6 +1,6 @@
 package com.umbrella.raven.service;
 
-import com.umbrella.raven.model.valuation.ValuationResult;
+import com.umbrella.raven.model.ValuationResult;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

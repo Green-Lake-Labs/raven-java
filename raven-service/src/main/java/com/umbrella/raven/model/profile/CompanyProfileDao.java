@@ -1,5 +1,6 @@
-package com.umbrella.raven.model;
+package com.umbrella.raven.model.profile;
 
+import com.umbrella.raven.model.symbol.TickerSymbolDao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,12 @@ public class CompanyProfileDao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "profile_id")
     private long id;
+    @Column(name = "symbol_id")
+    long symbolId;
+    @Column(name = "symbol")
+    String symbol;
     @Column(name = "sector")
     String sector;
     @Column(name = "industry")
@@ -39,17 +45,19 @@ public class CompanyProfileDao {
     @Column(name = "exchange")
     String exchange;
 
-    public CompanyProfileDao(CompanyProfile companyProfileDao) {
-        this.sector = companyProfileDao.sector;
-        this.industry = companyProfileDao.industry;
-        this.country = companyProfileDao.country;
-        this.state = companyProfileDao.state;
-        this.city = companyProfileDao.city;
-        this.website = companyProfileDao.website;
-        this.description = companyProfileDao.description;
-        this.fullTimeEmployees = companyProfileDao.fullTimeEmployees;
-        this.companyName = companyProfileDao.companyName;
-        this.shortCompanyName = companyProfileDao.shortCompanyName;
-        this.exchange = companyProfileDao.exchange;
+    public CompanyProfileDao(TickerSymbolDao tickerSymbolDao, CompanyProfileResponse companyProfileResponse) {
+        this.symbolId = tickerSymbolDao.getId();
+        this.symbol = tickerSymbolDao.getSymbol();
+        this.sector = companyProfileResponse.companyProfile.sector;
+        this.industry = companyProfileResponse.companyProfile.industry;
+        this.country = companyProfileResponse.companyProfile.country;
+        this.state = companyProfileResponse.companyProfile.state;
+        this.city = companyProfileResponse.companyProfile.city;
+        this.website = companyProfileResponse.companyProfile.website;
+        this.description = companyProfileResponse.companyProfile.description;
+        this.fullTimeEmployees = companyProfileResponse.companyProfile.fullTimeEmployees;
+        this.companyName = companyProfileResponse.companyProfile.companyName;
+        this.shortCompanyName = companyProfileResponse.companyProfile.shortCompanyName;
+        this.exchange = companyProfileResponse.companyProfile.exchange;
     }
 }

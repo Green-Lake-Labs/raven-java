@@ -2,6 +2,7 @@ package com.umbrella.raven.service;
 
 import com.umbrella.raven.model.profile.CompanyProfile;
 import com.umbrella.raven.model.profile.CompanyProfileDaoRepository;
+import com.umbrella.raven.model.profile.CompanyProfileQueryDaoRepository;
 import com.umbrella.raven.model.symbol.TickerSymbolDao;
 import com.umbrella.raven.model.symbol.TickerSymbolRepository;
 import lombok.AllArgsConstructor;
@@ -16,23 +17,25 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
-public class ExchangeService {
+public class EntityService {
 
     @Autowired
     TickerSymbolRepository tickerSymbolRepository;
     @Autowired
     CompanyProfileDaoRepository companyProfileDaoRepository;
+    @Autowired
+    CompanyProfileQueryDaoRepository companyProfileQueryDaoRepository;
 
     public List<TickerSymbolDao> getSymbolsAll() {
         return this.tickerSymbolRepository.findAll();
     }
 
     public CompanyProfile getProfileInfo(String symbol) {
-        return this.companyProfileDaoRepository.findAll()
+        return this.companyProfileQueryDaoRepository.findAll()
                 .stream()
-                .filter(s -> s.getSymbol().equals(symbol))
+                .filter(s -> s.getTickerSymbolDao().getSymbol().equals(symbol))
                 .map(CompanyProfile::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()).get(0);
     }
 
 }

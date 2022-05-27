@@ -66,7 +66,7 @@ public class DatabaseController {
     @GetMapping(value = "/writeProfileInfo/{symbol}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String writeProfileInfo(@PathVariable String symbol) {
-        this.databaseService.writeProfileInfo(symbol);
-        return "Profile info for symbol: " + symbol + " written to database.";
+        this.databaseService.writeProfileInfo(symbol.toUpperCase());
+        return "Profile info for symbol: " + symbol.toUpperCase() + " written to database.";
     }
 }

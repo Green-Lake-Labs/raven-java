@@ -1,7 +1,7 @@
-package com.umbrella.raven.model.symbol;
+package com.umbrella.raven.model.exception;
 
-public class TickerSymbolException extends Exception {
-    public TickerSymbolException(String message) {
+public class LookupException extends Exception {
+    public LookupException(String message) {
         super(message);
     }
 }
