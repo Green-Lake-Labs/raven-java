@@ -24,15 +24,19 @@ public class DatabaseController {
 
 
     /**
-     * Write all ticker symbols from the NASDAQ & NYSE to the DB.
+     * Update the database with all tickers from the NASDAQ & NYSE (Add new & remove expired).
      */
-    @Operation(summary = "Write all companies on the NYSE & NASDAQ to the database.",
+    @Operation(summary = "Update the database with all tickers from the NASDAQ & NYSE (Add new & remove expired).",
             tags = DATABASE_OPENAPI_TAG)
     @GetMapping(value = "/writeSymbols/all",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String writeSymbolsAll() throws LookupException {
-        this.databaseService.writeSymbolsAll();
-        return "Writing all symbols to the database. This will overwrite the existing tables of symbols.";
+    public String writeSymbolsAll() {
+        try {
+            this.databaseService.writeSymbolsAll();
+            return "All symbols updated in the database.";
+        } catch (LookupException e) {
+            return "ERROR: Database update failed.";
+        }
     }
 
     /**
@@ -43,7 +47,10 @@ public class DatabaseController {
     @GetMapping(value = "/writeProfileInfo/{symbol}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String writeProfileInfo(@PathVariable String symbol) {
-        this.databaseService.writeProfileInfo(symbol.toUpperCase());
-        return "Profile info for symbol: " + symbol.toUpperCase() + " written to database.";
+        if (this.databaseService.writeProfileInfo(symbol.toUpperCase())) {
+            return "Profile info for symbol: " + symbol.toUpperCase() + " written to database.";
+        } else {
+            return "WARN: Profile info for symbol: " + symbol.toUpperCase() + " already present in database.";
+        }
     }
 }

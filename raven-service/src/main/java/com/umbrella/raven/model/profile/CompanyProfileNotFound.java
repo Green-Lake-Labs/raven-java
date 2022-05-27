@@ -1,5 +1,8 @@
 package com.umbrella.raven.model.profile;
 
+import lombok.Data;
+
+@Data
 public class CompanyProfileNotFound implements CompanyProfile {
     String message;
     public CompanyProfileNotFound(String symbol) {
