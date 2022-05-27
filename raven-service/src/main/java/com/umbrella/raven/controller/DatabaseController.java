@@ -22,29 +22,6 @@ public class DatabaseController {
 
     final DatabaseService databaseService;
 
-    /**
-     * Write all ticker symbols from the NASDAQ to the DB.
-     */
-    @Operation(summary = "Write all companies on the NASDAQ to the database.",
-            tags = DATABASE_OPENAPI_TAG)
-    @GetMapping(value = "/writeSymbols/nasdaq",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public String writeSymbolsNasdaq() throws LookupException {
-        this.databaseService.writeSymbolsNasdaq();
-        return "Writing all symbols from NASDAQ to the database. This will overwrite the existing tables of symbols.";
-    }
-
-    /**
-     * Write all ticker symbols from the NYSE to the DB.
-     */
-    @Operation(summary = "Write all companies on the NYSE to the database.",
-            tags = DATABASE_OPENAPI_TAG)
-    @GetMapping(value = "/writeSymbols/nyse",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public String writeSymbolsNyse() throws LookupException {
-        this.databaseService.writeSymbolsNyse();
-        return "Writing all symbols from NYSE to the database. This will overwrite the existing tables of symbols.";
-    }
 
     /**
      * Write all ticker symbols from the NASDAQ & NYSE to the DB.

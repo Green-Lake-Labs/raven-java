@@ -1,10 +1,7 @@
 package com.umbrella.raven.service;
 
-import com.umbrella.raven.model.profile.CompanyProfile;
-import com.umbrella.raven.model.profile.CompanyProfileDaoRepository;
-import com.umbrella.raven.model.profile.CompanyProfileQueryDaoRepository;
-import com.umbrella.raven.model.symbol.TickerSymbolDao;
-import com.umbrella.raven.model.symbol.TickerSymbolRepository;
+import com.umbrella.raven.model.profile.*;
+import com.umbrella.raven.model.symbol.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +27,28 @@ public class EntityService {
         return this.tickerSymbolRepository.findAll();
     }
 
+    public TickerSymbol getSymbol(String symbol) {
+        try {
+            return this.tickerSymbolRepository.findAll()
+                    .stream()
+                    .filter(s -> s.getSymbol().equals(symbol))
+                    .map(TickerSymbolImpl::new)
+                    .collect(Collectors.toList()).get(0);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            return new TickerSymbolNotFound(symbol);
+        }
+    }
+
     public CompanyProfile getProfileInfo(String symbol) {
-        return this.companyProfileQueryDaoRepository.findAll()
-                .stream()
-                .filter(s -> s.getTickerSymbolDao().getSymbol().equals(symbol))
-                .map(CompanyProfile::new)
-                .collect(Collectors.toList()).get(0);
+        try {
+            return this.companyProfileQueryDaoRepository.findAll()
+                    .stream()
+                    .filter(s -> s.getTickerSymbolDao().getSymbol().equals(symbol))
+                    .map(CompanyProfileImpl::new)
+                    .collect(Collectors.toList()).get(0);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            return new CompanyProfileNotFound(symbol);
+        }
     }
 
 }

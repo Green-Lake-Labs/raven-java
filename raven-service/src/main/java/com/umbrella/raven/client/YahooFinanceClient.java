@@ -1,6 +1,5 @@
 package com.umbrella.raven.client;
 
-import com.umbrella.raven.model.profile.CompanyProfile;
 import com.umbrella.raven.model.exception.LookupException;
 import com.umbrella.raven.model.profile.CompanyProfileResponse;
 import com.umbrella.raven.model.symbol.TickerSymbolList;

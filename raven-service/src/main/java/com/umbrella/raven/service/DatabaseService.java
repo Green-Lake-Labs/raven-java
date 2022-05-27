@@ -31,45 +31,26 @@ public class DatabaseService {
         return yahooFinanceClient.getTickerSymbols("nasdaq").getStocks();
     }
 
-    /**
-     * Write all ticker symbols from the NASDAQ to the DB.
-     */
-    public void writeSymbolsNasdaq() throws LookupException {
-        this.tickerSymbolRepository.saveAll(
-                getSymbolsNasdaq().stream().map(TickerSymbolDao::new)
-                    .collect(Collectors.toList())
-        );
-    }
-
     public List<String> getSymbolsNyse() throws LookupException {
         return yahooFinanceClient.getTickerSymbols("nyse").getStocks();
     }
 
+    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
-     * Write all ticker symbols from the NYSE to the DB.
+     * Write all ticker symbols from the NASDAQ & NYSE to the DB.
      */
-    public void writeSymbolsNyse() throws LookupException {
+    public void writeSymbolsAll() throws LookupException {
+        this.tickerSymbolRepository.saveAll(
+                getSymbolsNasdaq().stream().map(TickerSymbolDao::new)
+                        .collect(Collectors.toList())
+        );
         this.tickerSymbolRepository.saveAll(
                 getSymbolsNyse().stream().map(TickerSymbolDao::new)
                         .collect(Collectors.toList())
         );
     }
 
-    /**
-     * Write all ticker symbols from the NASDAQ & NYSE to the DB.
-     */
-    public void writeSymbolsAll() throws LookupException {
-        writeSymbolsNasdaq();
-        writeSymbolsNyse();
-    }
-
-    // TODO: Update all tickers (add new tickers without clearing the DB).
-    /**
-     * Update all tickers.
-     */
-    public void updateAllTickers() {
-    }
-
+    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
      * Download company profile info for a certain symbol.
      */
@@ -83,6 +64,7 @@ public class DatabaseService {
     }
 
     // TODO: Download all price data for symbol.
+    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
      * Download all price data for symbol.
      */
@@ -90,6 +72,7 @@ public class DatabaseService {
     }
 
     // TODO: Download all financial data for symbol.
+    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
      * Download all financial data for symbol.
      */

@@ -1,6 +1,7 @@
 package com.umbrella.raven.controller;
 
 import com.umbrella.raven.model.profile.CompanyProfile;
+import com.umbrella.raven.model.symbol.TickerSymbol;
 import com.umbrella.raven.model.symbol.TickerSymbolDao;
 import com.umbrella.raven.service.EntityService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,25 +16,22 @@ import java.util.List;
 
 
 /**
- * Controller for transacting with the market exchange APIs.
+ * Controller for querying basic data on entities in the database.
  */
 @RestController
-@RequestMapping("exchange")
+@RequestMapping("entity")
 @AllArgsConstructor
 public class EntityController {
 
-
-    final String EXCHANGE_OPENAPI_TAG = "Exchange API";
-
+    final String ENTITY_OPENAPI_TAG = "Entity API";
 
     final EntityService entityService;
-
 
     /**
      * Fetch all symbols in the database.
      */
     @Operation(summary = "Fetch all symbols in the database.",
-            tags = EXCHANGE_OPENAPI_TAG)
+            tags = ENTITY_OPENAPI_TAG)
     @GetMapping(value = "/getSymbols/all",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TickerSymbolDao> fetchSymbolsAll() {
@@ -41,10 +39,21 @@ public class EntityController {
     }
 
     /**
-     * Fetch a single company's profile info.
+     * Fetch a single company's symbol from the database.
      */
-    @Operation(summary = "Fetch a single company's profile info.",
-            tags = EXCHANGE_OPENAPI_TAG)
+    @Operation(summary = "Fetch a single company's symbol from the database.",
+            tags = ENTITY_OPENAPI_TAG)
+    @GetMapping(value = "/getSymbol/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public TickerSymbol fetchSymbol(@PathVariable String symbol) {
+        return this.entityService.getSymbol(symbol.toUpperCase());
+    }
+
+    /**
+     * Fetch a single company's profile info from the database.
+     */
+    @Operation(summary = "Fetch a single company's profile info from the database.",
+            tags = ENTITY_OPENAPI_TAG)
     @GetMapping(value = "/getProfileInfo/{symbol}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public CompanyProfile fetchSymbolsAll(@PathVariable String symbol) {
