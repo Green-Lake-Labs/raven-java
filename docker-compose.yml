@@ -1,18 +1,22 @@
 version: '2.3'
 
+volumes:
+  postgres-data:
+
 services:
 
   raven-postgres:
     image: postgres:14.2
     hostname: raven-postgres
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PWD
       POSTGRES_DB: $POSTGRES_DB
-#    volumes:
-#        - ./.postgres-data:/var/lib/postgresql/data
+      PGDATA: /pg-data
+    volumes:
+        - postgres-data:/pg-data
 
   raven-service:
     build: ./raven-service/
@@ -24,7 +28,7 @@ services:
       POLYGON_API_KEY: $POLYGON_API_KEY
       X_RAPIDAPI_KEY: $X_RAPIDAPI_KEY
     depends_on:
-      - postgres
+      - raven-postgres
 
 #  raven-cli:
 #    build: ./raven-cli/Dockerfile
