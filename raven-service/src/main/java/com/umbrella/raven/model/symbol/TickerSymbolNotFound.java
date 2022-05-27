@@ -1,8 +1,8 @@
-package com.umbrella.raven.model.profile;
+package com.umbrella.raven.model.symbol;
 
-public class CompanyProfileNotFound implements CompanyProfile {
+public class TickerSymbolNotFound implements TickerSymbol {
     String message;
-    public CompanyProfileNotFound(String symbol) {
-        this.message = "Profile info for symbol: " + symbol + "not found in database.";
+    public TickerSymbolNotFound(String symbol) {
+        this.message = "Symbol: " + symbol + "not found in database.";
     }
 }

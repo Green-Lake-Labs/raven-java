@@ -17,7 +17,7 @@ public class CompanyProfileDao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "profile_id")
-    private long id;
+    long id;
     @Column(name = "symbol_id")
     long symbolId;
     @Column(name = "symbol")
@@ -34,6 +34,7 @@ public class CompanyProfileDao {
     String city;
     @Column(name = "website")
     String website;
+    @Lob
     @Column(name = "description")
     String description;
     @Column(name = "full_time_employees")

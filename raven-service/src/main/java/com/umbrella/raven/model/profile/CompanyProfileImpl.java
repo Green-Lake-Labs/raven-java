@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyProfile {
+public class CompanyProfileImpl implements CompanyProfile {
 
     String symbol;
     String sector;
@@ -22,7 +22,7 @@ public class CompanyProfile {
     String shortCompanyName;
     String exchange;
 
-    public CompanyProfile(CompanyProfileDao companyProfileDao) {
+    public CompanyProfileImpl(CompanyProfileDao companyProfileDao) {
         this.symbol = companyProfileDao.symbol;
         this.sector = companyProfileDao.sector;
         this.industry = companyProfileDao.industry;
@@ -37,7 +37,7 @@ public class CompanyProfile {
         this.exchange = companyProfileDao.exchange;
     }
 
-    public CompanyProfile(CompanyProfileQueryDao companyProfileQueryDao) {
+    public CompanyProfileImpl(CompanyProfileQueryDao companyProfileQueryDao) {
         this.symbol = companyProfileQueryDao.tickerSymbolDao.getSymbol();
         this.sector = companyProfileQueryDao.sector;
         this.industry = companyProfileQueryDao.industry;

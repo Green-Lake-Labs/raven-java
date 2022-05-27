@@ -16,7 +16,7 @@ public class TickerSymbolDao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "symbol_id")
-    private long id;
+    long id;
     @Column(name = "symbol")
     String symbol;
 

@@ -1,2 +1,4 @@
-package com.umbrella.raven.model.profile;public interface CompanyProfile {
+package com.umbrella.raven.model.profile;
+
+public interface CompanyProfile {
 }

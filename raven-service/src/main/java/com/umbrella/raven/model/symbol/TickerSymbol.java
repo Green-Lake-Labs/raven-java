@@ -1,2 +1,4 @@
-package com.umbrella.raven.model.symbol;public interface TickerSymbol {
+package com.umbrella.raven.model.symbol;
+
+public interface TickerSymbol {
 }
