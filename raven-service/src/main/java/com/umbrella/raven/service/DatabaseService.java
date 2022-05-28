@@ -1,10 +1,10 @@
 package com.umbrella.raven.service;
 
 import com.umbrella.raven.client.YahooFinanceClient;
-import com.umbrella.raven.model.profile.CompanyProfile;
+import com.umbrella.raven.model.price.PriceDataDao;
+import com.umbrella.raven.model.price.PriceDataDaoRepository;
 import com.umbrella.raven.model.profile.CompanyProfileDao;
 import com.umbrella.raven.model.profile.CompanyProfileDaoRepository;
-import com.umbrella.raven.model.symbol.TickerSymbol;
 import com.umbrella.raven.model.symbol.TickerSymbolDao;
 import com.umbrella.raven.model.exception.LookupException;
 import com.umbrella.raven.model.symbol.TickerSymbolRepository;
@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,8 @@ public class DatabaseService {
     TickerSymbolRepository tickerSymbolRepository;
     @Autowired
     CompanyProfileDaoRepository companyProfileDaoRepository;
+    @Autowired
+    PriceDataDaoRepository priceDataDaoRepository;
 
     final YahooFinanceClient yahooFinanceClient;
 
@@ -75,7 +79,6 @@ public class DatabaseService {
         this.tickerSymbolRepository.deleteAll(symbolsExpired);
     }
 
-    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
      * Download company profile info for a certain symbol.
      */
@@ -97,19 +100,43 @@ public class DatabaseService {
         }
     }
 
-    // TODO: Download all price data for symbol.
-    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
      * Download all price data for symbol.
      */
-    public void downloadAllPriceDataForSymbol(String symbol) {
+    public void writePriceData(String symbol) {
+        TickerSymbolDao tickerSymbol = this.tickerSymbolRepository.findBySymbol(symbol);
+        LocalDate latestDate = LocalDate.of(1970, 1, 1);
+        PriceDataDao latestPriceDataDao = this.priceDataDaoRepository.findFirstBySymbolOrderByDateDesc(symbol);
+        if (latestPriceDataDao != null) latestDate = latestPriceDataDao.getDate();
+        LocalDate currentDate = LocalDate.now();
+        int yearsToFetch = Period.between(latestDate, currentDate).getYears();
+        if (yearsToFetch == 0) yearsToFetch = 1;
+        LocalDate finalLatestDate = latestDate;
+        this.priceDataDaoRepository.saveAll(
+                yahooFinanceClient.getPriceData(symbol, yearsToFetch)
+                        .getHistoricalPrices()
+                        .stream()
+                        .filter(p -> p.getDate().isAfter(finalLatestDate))
+                        .map(p -> new PriceDataDao(tickerSymbol, p))
+                        .collect(Collectors.toList())
+        );
     }
 
-    // TODO: Download all financial data for symbol.
-    // TODO: MAKE THIS AN UPDATE, NOT AN OVERWRITE/APPEND!
     /**
-     * Download all financial data for symbol.
+     * Download all balance sheet data for symbol.
      */
-    public void downloadAllFinancialDataForSymbol(String symbol) {
+    public void writeBalanceSheetData(String symbol) {
+    }
+
+    /**
+     * Download all income statement data for symbol.
+     */
+    public void writeIncomeData(String symbol) {
+    }
+
+    /**
+     * Download all cash flow statement data for symbol.
+     */
+    public void writeCashFlowData(String symbol) {
     }
 }
