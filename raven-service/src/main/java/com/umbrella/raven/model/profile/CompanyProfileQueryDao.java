@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "company_profile")
 public class CompanyProfileQueryDao {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "symbol_id")
     private long id;
     @OneToOne(cascade = CascadeType.ALL)

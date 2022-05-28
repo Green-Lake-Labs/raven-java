@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CompanyProfileQueryDaoRepository extends JpaRepository<CompanyProfileQueryDao, Long> {
+    CompanyProfileQueryDao findByTickerSymbolDaoSymbol(String symbol);
 }
