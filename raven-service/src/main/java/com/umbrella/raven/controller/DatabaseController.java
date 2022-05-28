@@ -53,4 +53,68 @@ public class DatabaseController {
             return "WARN: Profile info for symbol: " + symbol.toUpperCase() + " already present in database.";
         }
     }
+
+    /**
+     * Write price data for a certain symbol to the database.
+     */
+    @Operation(summary = "Write price data for a certain symbol to the database.",
+            tags = DATABASE_OPENAPI_TAG)
+    @GetMapping(value = "/writePriceData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String writePriceData(@PathVariable String symbol) {
+        try {
+            this.databaseService.writePriceData(symbol);
+            return "Price data for symbol: " + symbol.toUpperCase() + " written to database.";
+        } catch (Exception e) {
+            return "ERROR: Database update failed.";
+        }
+    }
+
+    /**
+     * Write balance sheet data for a certain symbol to the database.
+     */
+    @Operation(summary = "Write balance sheet data for a certain symbol to the database.",
+            tags = DATABASE_OPENAPI_TAG)
+    @GetMapping(value = "/writeBalanceSheetData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String writeBalanceSheetData(@PathVariable String symbol) {
+        try {
+            this.databaseService.writeBalanceSheetData(symbol);
+            return "Balance sheet data for symbol: " + symbol.toUpperCase() + " written to database.";
+        } catch (Exception e) {
+            return "ERROR: Database update failed.";
+        }
+    }
+
+    /**
+     * Write income statement data for a certain symbol to the database.
+     */
+    @Operation(summary = "Write income statement data for a certain symbol to the database.",
+            tags = DATABASE_OPENAPI_TAG)
+    @GetMapping(value = "/writeIncomeData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String writeIncomeData(@PathVariable String symbol) {
+        try {
+            this.databaseService.writeIncomeData(symbol);
+            return "Income statement data for symbol: " + symbol.toUpperCase() + " written to database.";
+        } catch (Exception e) {
+            return "ERROR: Database update failed.";
+        }
+    }
+
+    /**
+     * Write cash flow statement data for a certain symbol to the database.
+     */
+    @Operation(summary = "Write cash flow statement data for a certain symbol to the database.",
+            tags = DATABASE_OPENAPI_TAG)
+    @GetMapping(value = "/writeCashFlowData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String writeCashFlowData(@PathVariable String symbol) {
+        try {
+            this.databaseService.writeCashFlowData(symbol);
+            return "Cash flow statement data for symbol: " + symbol.toUpperCase() + " written to database.";
+        } catch (Exception e) {
+            return "ERROR: Database update failed.";
+        }
+    }
 }

@@ -1,5 +1,9 @@
 package com.umbrella.raven.controller;
 
+import com.umbrella.raven.model.financial.balancesheet.BalanceSheetData;
+import com.umbrella.raven.model.financial.financial.FinancialData;
+import com.umbrella.raven.model.financial.income.IncomeData;
+import com.umbrella.raven.model.price.PriceData;
 import com.umbrella.raven.model.profile.CompanyProfile;
 import com.umbrella.raven.model.symbol.TickerSymbol;
 import com.umbrella.raven.model.symbol.TickerSymbolDao;
@@ -56,8 +60,52 @@ public class EntityController {
             tags = ENTITY_OPENAPI_TAG)
     @GetMapping(value = "/getProfileInfo/{symbol}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public CompanyProfile fetchSymbolsAll(@PathVariable String symbol) {
+    public CompanyProfile fetchProfileInfo(@PathVariable String symbol) {
         return this.entityService.getProfileInfo(symbol.toUpperCase());
+    }
+
+    /**
+     * Fetch a single company's price data from the database.
+     */
+    @Operation(summary = "Fetch a single company's price data from the database.",
+            tags = ENTITY_OPENAPI_TAG)
+    @GetMapping(value = "/getPriceData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PriceData> fetchPriceData(@PathVariable String symbol) {
+        return this.entityService.getPriceData(symbol.toUpperCase());
+    }
+
+    /**
+     * Fetch a single company's balance sheet data from the database.
+     */
+    @Operation(summary = "Fetch a single company's balance sheet data from the database.",
+            tags = ENTITY_OPENAPI_TAG)
+    @GetMapping(value = "/getBalanceSheetData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BalanceSheetData> fetchBalanceSheetData(@PathVariable String symbol) {
+        return this.entityService.getBalanceSheetData(symbol.toUpperCase());
+    }
+
+    /**
+     * Fetch a single company's income statement data from the database.
+     */
+    @Operation(summary = "Fetch a single company's income statement data from the database.",
+            tags = ENTITY_OPENAPI_TAG)
+    @GetMapping(value = "/getIncomeData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<IncomeData> fetchIncomeData(@PathVariable String symbol) {
+        return this.entityService.getIncomeData(symbol.toUpperCase());
+    }
+
+    /**
+     * Fetch a single company's cash flow statement data from the database.
+     */
+    @Operation(summary = "Fetch a single company's cash flow statement data from the database.",
+            tags = ENTITY_OPENAPI_TAG)
+    @GetMapping(value = "/getCashFlowData/{symbol}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FinancialData> fetchCashFlowData(@PathVariable String symbol) {
+        return this.entityService.getCashFlowData(symbol.toUpperCase());
     }
 
 }
