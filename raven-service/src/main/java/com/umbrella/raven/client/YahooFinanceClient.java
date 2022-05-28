@@ -1,6 +1,7 @@
 package com.umbrella.raven.client;
 
 import com.umbrella.raven.model.exception.LookupException;
+import com.umbrella.raven.model.price.PriceDataResponse;
 import com.umbrella.raven.model.profile.CompanyProfileResponse;
 import com.umbrella.raven.model.symbol.TickerSymbolList;
 import org.springframework.http.*;
@@ -56,6 +57,21 @@ public class YahooFinanceClient {
         HttpEntity<?> requestEntity = new HttpEntity<>(this.headers);
         ResponseEntity<CompanyProfileResponse> responseEntity = restTemplate
                 .exchange(uriTemplate, HttpMethod.GET, requestEntity, CompanyProfileResponse.class);
+        return responseEntity.getBody();
+    }
+
+    public PriceDataResponse getPriceData(String symbol, int years) {
+        String url = BASE_URL + "/yfinance/historical-prices";
+        String uriTemplate = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParams(new LinkedMultiValueMap<>() {{
+                    add("ticker_symbol", symbol);
+                    add("years", String.valueOf(years));
+                }})
+                .encode()
+                .toUriString();
+        HttpEntity<?> requestEntity = new HttpEntity<>(this.headers);
+        ResponseEntity<PriceDataResponse> responseEntity = restTemplate
+                .exchange(uriTemplate, HttpMethod.GET, requestEntity, PriceDataResponse.class);
         return responseEntity.getBody();
     }
 }

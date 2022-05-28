@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### Raven ###
-.postgres-data/
 *.env
+src/archive
