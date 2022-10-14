@@ -6,6 +6,6 @@ import lombok.Data;
 public class BalanceSheetDataNotFound implements BalanceSheetData {
     String message;
     public BalanceSheetDataNotFound(String symbol) {
-        this.message = "Balance sheet data for symbol: " + symbol + " not found in database.";
+        this.message = "Balance sheet data for symbol: " + symbol + "not found in database.";
     }
 }

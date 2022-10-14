@@ -1,7 +1,7 @@
 version: '2.3'
 
-volumes:
-  postgres-data:
+#volumes:
+#  postgres-data:
 
 services:
 
@@ -15,8 +15,8 @@ services:
       POSTGRES_PASSWORD: $POSTGRES_PWD
       POSTGRES_DB: $POSTGRES_DB
       PGDATA: /pg-data
-    volumes:
-        - postgres-data:/pg-data
+#    volumes:
+#        - postgres-data:/pg-data
 
   raven-service:
     build: ./raven-service/

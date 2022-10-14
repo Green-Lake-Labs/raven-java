@@ -6,6 +6,6 @@ import lombok.Data;
 public class FinancialDataNotFound implements FinancialData {
     String message;
     public FinancialDataNotFound(String symbol) {
-        this.message = "Cash flow data for symbol: " + symbol + "not found in database.";
+        this.message = "Cash flow data for symbol: " + symbol + " not found in database.";
     }
 }

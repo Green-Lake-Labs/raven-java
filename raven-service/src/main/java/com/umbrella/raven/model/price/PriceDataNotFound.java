@@ -6,6 +6,6 @@ import lombok.Data;
 public class PriceDataNotFound implements PriceData {
     String message;
     public PriceDataNotFound(String symbol) {
-        this.message = "Price data for symbol: " + symbol + "not found in database.";
+        this.message = "Price data for symbol: " + symbol + " not found in database.";
     }
 }
