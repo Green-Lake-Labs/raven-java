@@ -35,3 +35,6 @@ build/
 ### Raven ###
 *.env
 src/archive
+
+FORMULA.md
+WORK_NOTES.md
