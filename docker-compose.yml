@@ -19,7 +19,7 @@ services:
 #        - postgres-data:/pg-data
 
   raven-service:
-    build: ./raven-service/
+    build: .
     ports:
       - "8080:8080"
     environment:
@@ -29,9 +29,3 @@ services:
       X_RAPIDAPI_KEY: $X_RAPIDAPI_KEY
     depends_on:
       - raven-postgres
-
-#  raven-cli:
-#    build: ./raven-cli/Dockerfile
-#    depends_on:
-#      - postgres
-#      - raven-service
